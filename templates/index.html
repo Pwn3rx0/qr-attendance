@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QR Attendance</title>
+  <script src="https://unpkg.com/html5-qrcode@2.4.0"></script>
+  <style>
+    body{font-family: Arial, Helvetica, sans-serif; margin:20px}
+    label{display:block; margin-top:10px}
+    input, button{padding:8px; margin-top:6px}
+    #reader{width:400px}
+  </style>
+</head>
+<body>
+  <h1>QR Attendance System</h1>
+
+  <section>
+    <h2>1) Upload student spreadsheet (.xlsx)</h2>
+    <input type="file" id="fileInput" accept=".xlsx" />
+    <button id="uploadBtn">Upload</button>
+    <div id="uploadResult"></div>
+  </section>
+
+  <section>
+    <h2>2) Create lecture session</h2>
+    <label>Label: <input id="lectureLabel" placeholder="Lecture 2025-10-19"/></label>
+    <label>Manual lecture code: <input id="lectureCode"/></label>
+    <button id="createLectureBtn">Create Lecture</button>
+    <div id="lectureResult"></div>
+  </section>
+
+  <section>
+    <h2>3) Generate QR codes (zip)</h2>
+    <button id="genQRBtn">Generate QR ZIP</button>
+  </section>
+
+  <section>
+    <h2>4) Scan QR (student)</h2>
+    <div id="reader" style="width:400px"></div>
+    <div id="scanResult"></div>
+  </section>
+
+  <section>
+    <h2>5) Export updated spreadsheet</h2>
+    <button id="exportBtn">Download XLSX</button>
+  </section>
+
+  <script>
+    const uploadBtn = document.getElementById('uploadBtn');
+    const fileInput = document.getElementById('fileInput');
+    const uploadResult = document.getElementById('uploadResult');
+    const createLectureBtn = document.getElementById('createLectureBtn');
+    const lectureResult = document.getElementById('lectureResult');
+    const genQRBtn = document.getElementById('genQRBtn');
+    const scanResult = document.getElementById('scanResult');
+    const exportBtn = document.getElementById('exportBtn');
+
+    uploadBtn.onclick = async () => {
+      const f = fileInput.files[0];
+      if(!f){ uploadResult.innerText = 'Choose a file first'; return }
+      const fd = new FormData(); fd.append('file', f);
+      const res = await 
